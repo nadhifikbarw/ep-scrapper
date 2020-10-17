@@ -1,4 +1,5 @@
-scrapy
-scrapy-selenium
-ipython
 ipdb
+scrapy
+ipython
+scrapy-selenium
+tweet-preprocessor
