@@ -4,6 +4,7 @@ USER_AGENT = 'nadhifikbarw@gmail.com - Professional Ethics Research - Informatio
 # settings for spiders
 BOT_NAME = 'TweetScraper'
 LOG_LEVEL = 'DEBUG'
+URLLENGTH_LIMIT = 10000
 
 SPIDER_MODULES = ['TweetScraper.spiders']
 NEWSPIDER_MODULE = 'TweetScraper.spiders'

@@ -60,7 +60,8 @@ class Processor:
     def __load(self):
         for loader in self.loaders:
             for tweet in self.tweets:
-                loader.write(tweet)
+                if tweet.getText() != '':
+                    loader.write(tweet)
             loader.close()
 
     def handle(self):
