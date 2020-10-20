@@ -1,6 +1,6 @@
 [Original README](https://github.com/jonbakerfish/TweetScraper/tree/c8bb0d74e2265f3aafb93023c3b3c1fef40ba117)
 
-Scrapper originally by: https://github.com/jonbakerfish/TweetScraper
+Forked and extended from: https://github.com/jonbakerfish/TweetScraper
 
 # Requirements
 
