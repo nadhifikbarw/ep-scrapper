@@ -24,7 +24,7 @@ class CSVLoader(Loader):
 
     def open(self, append=True):
         try:
-            self.file = open(self.path, mode=('a+' if append else 'w+'), newline='')
+            self.file = open(self.path, mode=('a+' if append else 'w+'), newline='', encoding='utf-8')
         except PermissionError:
             raise Exception('Permission error, file might be opened by other process')
 
