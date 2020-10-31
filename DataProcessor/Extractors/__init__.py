@@ -1,1 +1,2 @@
+from .TweetXSLXExtractor import TweetXSLXExtractor
 from .TweetFileExtractor import TweetFileExtractor

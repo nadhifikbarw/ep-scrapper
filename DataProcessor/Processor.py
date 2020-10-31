@@ -1,7 +1,5 @@
-from os import walk
 from .Loaders import CSVLoader
-from os.path import join as pathjoin
-from .Extractors import TweetFileExtractor
+from .Extractors import TweetXSLXExtractor
 from .Transformers import HTMLTransformer
 from .Transformers import TweetTransformer
 from .Transformers import LowercaseTransformer
@@ -19,9 +17,6 @@ class Processor:
     # Data
     tweets = []
 
-    # Tweet Path
-    tweet_paths = []
-
     # Transformer handlers
     handlers = [
         HTMLTransformer(),
@@ -33,24 +28,16 @@ class Processor:
 
     loaders = []
 
-    def __init__(self, dir_path, out_path):
+    def __init__(self, input_path, out_path):
         # Prepare path
-        self.input_path = dir_path
+        self.input_path = input_path
         self.output_path = out_path
 
         # Create loader
         self.loaders.append(CSVLoader(self.output_path).open(append=False))
 
-        # Walk input directory
-        self.__get_tweet_paths()
-
-    def __get_tweet_paths(self):
-        for anchor, directories, files in walk(self.input_path):
-            for filename in files:
-                self.tweet_paths.append(pathjoin(anchor, filename))
-
     def __extract(self):
-        self.tweets = [TweetFileExtractor.handle(file) for file in self.tweet_paths]
+        self.tweets = TweetXSLXExtractor.handle(self.input_path)
 
     def __transform(self):
         for tweet in self.tweets:
@@ -60,7 +47,7 @@ class Processor:
     def __load(self):
         for loader in self.loaders:
             for tweet in self.tweets:
-                if tweet.getText() != '':
+                if tweet.getText() != '' and tweet.getTag() != 'tdkRelevan':
                     loader.write(tweet)
             loader.close()
 

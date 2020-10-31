@@ -3,10 +3,7 @@ from .Loaders import CSVLoader
 from os.path import join as pathjoin
 from .Extractors import TweetFileExtractor
 from .Transformers import HTMLTransformer
-from .Transformers import TweetTransformer
-from .Transformers import LowercaseTransformer
 from .Transformers import WhitespaceTransformer
-from .Transformers import PunctuationTransformer
 
 
 class Aggregator:
@@ -24,6 +21,8 @@ class Aggregator:
 
     # Transformer handlers
     handlers = [
+        HTMLTransformer(),
+        WhitespaceTransformer()
     ]
 
     loaders = []
@@ -45,7 +44,9 @@ class Aggregator:
                 self.tweet_paths.append(pathjoin(anchor, filename))
 
     def __extract(self):
-        self.tweets = [TweetFileExtractor.handle(file) for file in self.tweet_paths]
+        self.tweets = [TweetFileExtractor.handle(file, exclude=('72293042', '2431564153')) for file in self.tweet_paths]
+        # Remove None
+        self.tweets = [i for i in self.tweets if i]
 
     def __transform(self):
         for tweet in self.tweets:

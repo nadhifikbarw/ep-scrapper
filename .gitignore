@@ -6,3 +6,7 @@ geckodriver.log
 *.pyc
 .idea
 *.csv
+excluded_users.txt
+*.rar
+*.xlsx
+*.zip

@@ -1,7 +1,7 @@
 import csv
-from .Loader import Loader
-from ..Models import Tweet
 from io import TextIOWrapper
+
+from .Loader import Loader
 
 
 class CSVLoader(Loader):
@@ -16,6 +16,8 @@ class CSVLoader(Loader):
     writer = None  # type: None or csv.DictWriter
 
     state = None  # type: None or int
+
+    delimiter = '^'
 
     def __init__(self, save_path: str, header=None):
         self.path = save_path
@@ -32,9 +34,12 @@ class CSVLoader(Loader):
         self.__set_state(self.STATE.READY)
         return self
 
-    def write(self, model: Tweet):
+    def write(self, model):
         if self.state == self.STATE.READY:
-            self.writer.writerow(dict(zip(self.header, [model.getText(), None])))
+            self.writer.writerow(dict(zip(self.header, [
+                model.getText(),
+                model.getTag() if callable(getattr(model, 'getTag')) else None
+            ])))
             return self
         else:
             raise Exception('CSV File stream is not ready')
@@ -60,10 +65,10 @@ class CSVLoader(Loader):
             if isinstance(header, list):
                 self.__create_csv_handler()
         except StopIteration:
-            temp_writer = csv.writer(self.file)
+            temp_writer = csv.writer(self.file, delimiter=self.delimiter)
             temp_writer.writerow(self.header)
             self.__create_csv_handler()
 
     def __create_csv_handler(self):
-        self.reader = csv.DictReader(self.file)
-        self.writer = csv.DictWriter(self.file, fieldnames=self.header)
+        self.reader = csv.DictReader(self.file, delimiter=self.delimiter)
+        self.writer = csv.DictWriter(self.file, fieldnames=self.header, delimiter=self.delimiter)

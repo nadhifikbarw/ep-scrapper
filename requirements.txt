@@ -3,3 +3,5 @@ scrapy
 ipython
 scrapy-selenium
 tweet-preprocessor
+pandas
+xlrd
